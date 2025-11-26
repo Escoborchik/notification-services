@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationGateway.Domain"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationGateway.Infrastructure", "src\Notification.Gateway.Infrastructure\NotificationGateway.Infrastructure.csproj", "{DF422FB4-50BC-4A6E-A61C-21596C4C82E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationGateway.Application", "Notification.Gateway.Application\NotificationGateway.Application.csproj", "{144635A0-0D55-4449-9104-35F9FF1CBB40}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationGateway.Application", "src\Notification.Gateway.Application\NotificationGateway.Application.csproj", "{144635A0-0D55-4449-9104-35F9FF1CBB40}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationGateway.Contracts", "src\Notification.Gateway.Contracts\NotificationGateway.Contracts.csproj", "{3D89BEDD-3DD4-4EE3-8A56-AE08E29845D3}"
 EndProject

@@ -8,11 +8,10 @@
 
   <ItemGroup>
     <PackageReference Include="Framework" Version="1.0.1" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Notification.Gateway.Application\NotificationGateway.Application.csproj" />
+    <ProjectReference Include="..\Notification.Gateway.Contracts\NotificationGateway.Contracts.csproj" />
     <ProjectReference Include="..\Notification.Gateway.Domain\NotificationGateway.Domain.csproj" />
   </ItemGroup>
 
