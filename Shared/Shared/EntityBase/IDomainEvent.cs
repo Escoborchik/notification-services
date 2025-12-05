@@ -1,3 +1,5 @@
-﻿namespace SharedKernel.EntityBase;
+﻿using MediatR;
 
-public interface IDomainEvent;
+namespace SharedKernel.EntityBase;
+
+public interface IDomainEvent : INotification;

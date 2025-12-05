@@ -1,19 +1,20 @@
 name: notifications
 
 volumes:
-  postgresNote:
+  postgres_data:
+  rabbitmq_data:
 services:
   postgres:
-    image: postgres:18
+    image: postgres
     restart: always
     environment:
         POSTGRES_DB: notifications
         POSTGRES_USER: postgres
         POSTGRES_PASSWORD: postgres
     ports:
-    - 5433:5432
+    - "5434:5432"
     volumes:
-    - postgresNote:/var/lib/postgresql 
+    - postgres_data:/var/lib/postgresql
   seq:
     image: datalust/seq
     restart: always
@@ -23,3 +24,11 @@ services:
     ports:
     - 5341:5341
     - 8081:80
+  rabbitmq:
+    image: rabbitmq:management-alpine
+    hostname: localhost
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq

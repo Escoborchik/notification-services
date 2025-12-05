@@ -1,10 +1,9 @@
 ﻿using Framework.Logging;
 using Framework.Swagger;
-using NotificationGateway.Application;
-using NotificationGateway.Infrastructure;
+using MassTransit;
 using System.Text.Json.Serialization;
 
-namespace NotificationGateway.Presentation;
+namespace EmailNotificationService;
 
 public static class DependencyInjection
 {
@@ -18,8 +17,6 @@ public static class DependencyInjection
             
 
         services
-            .AddApplication()
-            .AddInfrastructure(configuration)
             .AddFramework(configuration);
     }
 
@@ -32,7 +29,29 @@ public static class DependencyInjection
             .AddOpenApi()
             .AddEndpointsApiExplorer()
             .AddApplicationLoggingSeq(configuration)
-            .AddCustomSwagger(configuration);
+            .AddCustomSwagger(configuration)
+            .AddMessageBus(configuration);
+
+        return services;
+    }
+
+    private static IServiceCollection AddMessageBus(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddMassTransit(configure =>
+        {
+            configure.SetKebabCaseEndpointNameFormatter();
+
+            configure.UsingRabbitMq((context, cfg) =>
+            {
+                cfg.Host(new Uri(configuration["RabbitMQ:Host"]!), h =>
+                {
+                    h.Username(configuration["RabbitMQ:UserName"]!);
+                    h.Password(configuration["RabbitMQ:Password"]!);
+                });
+
+                cfg.ConfigureEndpoints(context);
+            });
+        });
 
         return services;
     }

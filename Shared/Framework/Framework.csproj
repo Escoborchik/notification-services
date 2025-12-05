@@ -5,7 +5,6 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<PackageVersion>1.0.1</PackageVersion>
-		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<RepositoryUrl>https://github.com/Escoborchik/notification-services</RepositoryUrl>
 	</PropertyGroup>
 
