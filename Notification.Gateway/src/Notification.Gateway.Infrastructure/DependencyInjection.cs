@@ -1,8 +1,12 @@
 ﻿using Framework.Database;
+using Framework.Database.Repository;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using NotificationGateway.Application.Interfaces;
+using NotificationGateway.Infrastructure.Migrator;
+using Microsoft.EntityFrameworkCore;
 
 namespace NotificationGateway.Infrastructure;
 
@@ -11,12 +15,21 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(
         this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<AppDbContext>();
+        services.AddDbContext<AppDbContext>((sp, options) =>
+        {
+            var configuration = sp.GetRequiredService<IConfiguration>();
 
+            options.UseNpgsql(configuration.GetConnectionString(Constants.DATABASE));
 
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
+            options.UseLoggerFactory(
+                LoggerFactory.Create(builder => builder.AddConsole()));
+        });
 
-        services.AddScoped<INotificationsRepository, NotificationsRepository>();
+        services.AddScoped<INotificationTransactionManager, NotificationTransactionManager>();
+
+        services.AddRepositories(AssemblyReference.Assembly);
+
+        services.AddScoped<IMigrator, NotificationMigrator>();
 
         services.AddMessageBus(configuration);
 
@@ -40,6 +53,17 @@ public static class DependencyInjection
 
                 cfg.ConfigureEndpoints(context);
             });
+
+            //configure.AddEntityFrameworkOutbox<AppDbContext>(o =>
+            //{
+            //    o.UsePostgres();
+            //    o.UseBusOutbox();
+            //});
+
+            //configure.AddConfigureEndpointsCallback((context, name, cfg) =>
+            //{
+            //    cfg.UseEntityFrameworkOutbox<AppDbContext>(context);
+            //});
         });
 
         return services;

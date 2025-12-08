@@ -6,6 +6,6 @@ builder.Services.AddProgramDependencies(builder.Configuration);
 
 var app = builder.Build();
 
-app.Configure();
+await app.Configure();
 
 app.Run();

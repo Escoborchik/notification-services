@@ -1,21 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using NotificationGateway.Domain;
+﻿using MassTransit;
+using Microsoft.EntityFrameworkCore;
 
 namespace NotificationGateway.Infrastructure;
 
-public class AppDbContext(IConfiguration configuration) : DbContext
+public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
-    public DbSet<Notification> Notifications => Set<Notification>();
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        optionsBuilder.UseNpgsql(configuration.GetConnectionString(Constants.DATABASE));
-        optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
+        modelBuilder.ApplyConfigurationsFromAssembly(
+            AssemblyReference.Assembly,
+            type => type.FullName?.Contains("Configurations") ?? false);
+
+        //modelBuilder.AddInboxStateEntity(); 
+        //modelBuilder.AddOutboxMessageEntity();
+        //modelBuilder.AddOutboxStateEntity();
     }
-
-
-    private static ILoggerFactory CreateLoggerFactory() =>
-            LoggerFactory.Create(builder => builder.AddConsole());
 }

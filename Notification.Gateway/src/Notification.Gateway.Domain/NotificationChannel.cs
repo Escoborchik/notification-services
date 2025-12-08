@@ -1,8 +1,9 @@
 ﻿namespace NotificationGateway.Domain;
 
-public enum NotificationChannelType
+public enum NotificationChannel
 {
     Email,
     Sms,
-    Push
+    Push,
+    Telegram
 }

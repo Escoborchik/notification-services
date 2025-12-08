@@ -1,3 +1,3 @@
 ﻿namespace NotificationGateway.Contracts.DTO;
 
-public record RecipientDTO(string Email);
+public record RecipientDTO(string? Email, string? PhoneNumber, string? PushToken);

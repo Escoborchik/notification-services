@@ -1,7 +1,7 @@
 ﻿using Framework;
 using Microsoft.AspNetCore.Mvc;
 using NotificationGateway.Application.Commands.CreateNotification;
-using NotificationGateway.Contracts;
+using NotificationGateway.Contracts.Requests;
 
 namespace NotificationGateway.Presentation.Controllers
 {
@@ -31,16 +31,16 @@ namespace NotificationGateway.Presentation.Controllers
         //}
 
         /// <summary>
-        /// Создание уведомления
+        /// Отправить уведомление
         /// </summary>
 
         [HttpPost()]
-        public async Task<ActionResult<Guid>> Create(
-        [FromServices] CreateNotificationCommandHandler handler,
-        [FromBody] CreateNotificationRequest request,
+        public async Task<ActionResult<Guid>> SendNotification(
+        [FromServices] SendNotificationCommandHandler handler,
+        [FromBody] SendNotificationRequest request,
         CancellationToken cancellationToken)
         {
-            var command = new CreateNotificationCommand(request.Channel, request.Recipient);
+            var command = SendNotificationCommand.FromRequest(request);
 
             var result = await handler.Execute(command, cancellationToken);
 

@@ -4,5 +4,5 @@ namespace NotificationGateway.Application.Interfaces;
 
 public interface INotificationEventPublisher
 {
-    Task PublishNotificationCreatedAsync(Guid notificationId, NotificationChannelType channel);
+    Task PublishNotificationCreatedAsync(Guid notificationId, NotificationChannel channel);
 }

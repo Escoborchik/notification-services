@@ -2,16 +2,15 @@
 
 public class Recipient
 {
-    public Guid Id { get; private set; }
-    public string Email { get; private set; }
-    //public string Phone { get; private set }
-    //public string DeviceToken { get; private set }
+    public string? Email { get; private set; }
+    public string? PhoneNumber { get; private set; }
+    public string? PushToken { get; private set; }
 
-    public Recipient(string email, string phone, string deviceToken)
+    public Recipient(string? email, string? phone, string? pushToken)
     {
         Email = email;
-        //Phone = phone;
-        //DeviceToken = deviceToken;
+        PhoneNumber = phone;
+        PushToken = pushToken;
     }
 
 
