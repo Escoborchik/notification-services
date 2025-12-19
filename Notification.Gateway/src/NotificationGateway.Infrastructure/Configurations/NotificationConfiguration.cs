@@ -19,7 +19,7 @@ public class NotificationConfiguration : IEntityTypeConfiguration<Notification>
         builder.ComplexProperty(v => v.Recipient, db =>
         {
 
-            db.Property(r => r.PhoneNumber)
+            db.Property(r => r.Phone)
             .HasMaxLength(Constants.MIN_TEXT_LENGTH)
             .HasColumnName("phone");
 
@@ -48,5 +48,9 @@ public class NotificationConfiguration : IEntityTypeConfiguration<Notification>
         builder.Property(c => c.Status)
             .HasConversion<string>()
             .HasColumnName("status");
+
+        builder.Property(c => c.Channel)
+            .HasConversion<string>()
+            .HasColumnName("channel");
     }
 }

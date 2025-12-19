@@ -1,6 +1,6 @@
 ﻿namespace NotificationGateway.Domain;
 
-public class Content
+public record Content
 {
     public string Subject { get; }
     public string Text { get; }

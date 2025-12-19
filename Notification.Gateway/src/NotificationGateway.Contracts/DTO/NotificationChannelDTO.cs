@@ -4,6 +4,5 @@ public enum NotificationChannelDTO
 {
     Email,
     Sms,
-    Push,
-    Telegram
+    Push
 }

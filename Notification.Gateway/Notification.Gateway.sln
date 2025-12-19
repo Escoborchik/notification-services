@@ -3,15 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36603.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationGateway.Presentation", "src\Notification.Gateway.Presentation\NotificationGateway.Presentation.csproj", "{6046BF5C-CF32-4CCD-B0DE-EE5A48259751}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationGateway.Presentation", "src\NotificationGateway.Presentation\NotificationGateway.Presentation.csproj", "{6046BF5C-CF32-4CCD-B0DE-EE5A48259751}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationGateway.Domain", "src\Notification.Gateway.Domain\NotificationGateway.Domain.csproj", "{4391C4BD-094A-4942-955D-89DEAD812FBA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationGateway.Domain", "src\NotificationGateway.Domain\NotificationGateway.Domain.csproj", "{4391C4BD-094A-4942-955D-89DEAD812FBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationGateway.Infrastructure", "src\Notification.Gateway.Infrastructure\NotificationGateway.Infrastructure.csproj", "{DF422FB4-50BC-4A6E-A61C-21596C4C82E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationGateway.Infrastructure", "src\NotificationGateway.Infrastructure\NotificationGateway.Infrastructure.csproj", "{DF422FB4-50BC-4A6E-A61C-21596C4C82E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationGateway.Application", "src\Notification.Gateway.Application\NotificationGateway.Application.csproj", "{144635A0-0D55-4449-9104-35F9FF1CBB40}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationGateway.Application", "src\NotificationGateway.Application\NotificationGateway.Application.csproj", "{144635A0-0D55-4449-9104-35F9FF1CBB40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationGateway.Contracts", "src\Notification.Gateway.Contracts\NotificationGateway.Contracts.csproj", "{3D89BEDD-3DD4-4EE3-8A56-AE08E29845D3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationGateway.Contracts", "src\NotificationGateway.Contracts\NotificationGateway.Contracts.csproj", "{3D89BEDD-3DD4-4EE3-8A56-AE08E29845D3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{36D591C7-65C7-A0D1-1CBC-10CDE441BDC8}"
+	ProjectSection(SolutionItems) = preProject
+		scripts\migration.cmd = scripts\migration.cmd
+		scripts\migration.ps1 = scripts\migration.ps1
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -14,8 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Notification.Gateway.Application\NotificationGateway.Application.csproj" />
-    <ProjectReference Include="..\Notification.Gateway.Domain\NotificationGateway.Domain.csproj" />
+    <ProjectReference Include="..\NotificationGateway.Application\NotificationGateway.Application.csproj" />
+    <ProjectReference Include="..\NotificationGateway.Domain\NotificationGateway.Domain.csproj" />
   </ItemGroup>
 
 </Project>

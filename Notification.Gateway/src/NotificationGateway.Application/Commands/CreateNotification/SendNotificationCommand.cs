@@ -14,7 +14,7 @@ public record SendNotificationCommand(
 {
     public static SendNotificationCommand FromRequest(SendNotificationRequest request) => 
         new(
-            request.Channel, 
+            (NotificationChannel)request.Channel, 
             request.Content,
             request.Recipient);
 }

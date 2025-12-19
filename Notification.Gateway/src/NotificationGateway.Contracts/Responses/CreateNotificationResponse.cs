@@ -1,9 +1,9 @@
-﻿using NotificationGateway.Domain;
+﻿using NotificationGateway.Contracts.DTO;
 
 namespace NotificationGateway.Contracts.Responses;
 
 public class CreateNotificationResponse
 {
     public Guid Id { get; set; }
-    public NotificationStatus Status { get; set; } = default!;
+    public NotificationStatusDTO Status { get; set; } = default!;
 }

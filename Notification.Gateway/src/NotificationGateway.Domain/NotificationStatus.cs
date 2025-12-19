@@ -3,8 +3,6 @@
 public enum NotificationStatus
 {
     Pending,
-    Processing,
     Sent,
-    Delivered,
     Failed
 }

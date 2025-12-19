@@ -21,9 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Notification.Gateway.Application\NotificationGateway.Application.csproj" />
-    <ProjectReference Include="..\Notification.Gateway.Contracts\NotificationGateway.Contracts.csproj" />
-    <ProjectReference Include="..\Notification.Gateway.Infrastructure\NotificationGateway.Infrastructure.csproj" />
+    <ProjectReference Include="..\NotificationGateway.Application\NotificationGateway.Application.csproj" />
+    <ProjectReference Include="..\NotificationGateway.Contracts\NotificationGateway.Contracts.csproj" />
+    <ProjectReference Include="..\NotificationGateway.Infrastructure\NotificationGateway.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
