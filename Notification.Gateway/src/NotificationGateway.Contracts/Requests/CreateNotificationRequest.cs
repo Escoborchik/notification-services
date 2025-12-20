@@ -2,7 +2,7 @@
 
 namespace NotificationGateway.Contracts.Requests;
 
-public record SendNotificationRequest(
+public record CreateNotificationRequest(
     NotificationChannelDTO Channel,
     ContentDTO Content,
     RecipientDTO Recipient);

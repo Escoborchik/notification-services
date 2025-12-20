@@ -36,11 +36,11 @@ namespace NotificationGateway.Presentation.Controllers
 
         [HttpPost()]
         public async Task<ActionResult<Guid>> SendNotification(
-        [FromServices] SendNotificationCommandHandler handler,
-        [FromBody] SendNotificationRequest request,
+        [FromServices] CreateNotificationCommandHandler handler,
+        [FromBody] CreateNotificationRequest request,
         CancellationToken cancellationToken)
         {
-            var command = SendNotificationCommand.FromRequest(request);
+            var command = CreateNotificationCommand.FromRequest(request);
 
             var result = await handler.Execute(command, cancellationToken);
 

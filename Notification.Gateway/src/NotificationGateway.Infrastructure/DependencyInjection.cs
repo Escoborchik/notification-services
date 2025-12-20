@@ -54,16 +54,16 @@ public static class DependencyInjection
                 cfg.ConfigureEndpoints(context);
             });
 
-            //configure.AddEntityFrameworkOutbox<AppDbContext>(o =>
-            //{
-            //    o.UsePostgres();
-            //    o.UseBusOutbox();
-            //});
+            configure.AddEntityFrameworkOutbox<AppDbContext>(o =>
+            {
+                o.UsePostgres();
+                o.UseBusOutbox();
+            });
 
-            //configure.AddConfigureEndpointsCallback((context, name, cfg) =>
-            //{
-            //    cfg.UseEntityFrameworkOutbox<AppDbContext>(context);
-            //});
+            configure.AddConfigureEndpointsCallback((context, name, cfg) =>
+            {
+                cfg.UseEntityFrameworkOutbox<AppDbContext>(context);
+            });
         });
 
         return services;

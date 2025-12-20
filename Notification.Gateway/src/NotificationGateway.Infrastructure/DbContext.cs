@@ -11,8 +11,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             AssemblyReference.Assembly,
             type => type.FullName?.Contains("Configurations") ?? false);
 
-        //modelBuilder.AddInboxStateEntity(); 
-        //modelBuilder.AddOutboxMessageEntity();
-        //modelBuilder.AddOutboxStateEntity();
+        modelBuilder.AddInboxStateEntity();
+        modelBuilder.AddOutboxMessageEntity();
+        modelBuilder.AddOutboxStateEntity();
     }
 }

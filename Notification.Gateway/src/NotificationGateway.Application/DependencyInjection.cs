@@ -1,8 +1,7 @@
 ﻿using Framework.Abstractions;
 using Framework.Services;
 using Microsoft.Extensions.DependencyInjection;
-using NotificationGateway.Application.Commands.CreateNotification;
-using static NotificationGateway.Application.Commands.CreateNotification.EmailNotificationRoute;
+using NotificationGateway.Application.Router;
 using TimeProvider = Framework.Services.Implementation.TimeProvider;
 
 namespace NotificationGateway.Application;

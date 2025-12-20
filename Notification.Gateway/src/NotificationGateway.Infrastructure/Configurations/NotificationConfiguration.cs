@@ -41,7 +41,6 @@ public class NotificationConfiguration : IEntityTypeConfiguration<Notification>
             .HasColumnName("subject");
 
             db.Property(c => c.Text)
-            .HasMaxLength(Constants.MIN_TEXT_LENGTH)
             .HasColumnName("text");
         });
 
