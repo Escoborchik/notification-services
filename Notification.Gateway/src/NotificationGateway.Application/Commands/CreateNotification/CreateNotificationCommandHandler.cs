@@ -64,12 +64,3 @@ public sealed class CreateNotificationCommandHandler(
         return notification.Id;
     }
 }
-
-
-public record EmailNotificationEvent(
-    Guid NotificationId,
-    string Email,
-    string Subject,
-    string Message,
-    DateTime OccurredAtUtc
-);

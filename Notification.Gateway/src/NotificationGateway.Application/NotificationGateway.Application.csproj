@@ -3,6 +3,7 @@
   <ItemGroup>
     <PackageReference Include="Framework" />
     <PackageReference Include="MassTransit" />
+    <PackageReference Include="Notifications.Contracts" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36804.6
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.Contracts", "Notifications.Contracts\Notifications.Contracts.csproj", "{8093E37C-A033-444F-8432-2B829D6DAF06}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{36D591C7-65C7-A0D1-1CBC-10CDE441BDC8}"
+	ProjectSection(SolutionItems) = preProject
+		scripts\publish-nuget.cmd = scripts\publish-nuget.cmd
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "directory", "directory", "{801A6030-2E11-42E8-9A00-B8536812D33F}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8093E37C-A033-444F-8432-2B829D6DAF06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8093E37C-A033-444F-8432-2B829D6DAF06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8093E37C-A033-444F-8432-2B829D6DAF06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8093E37C-A033-444F-8432-2B829D6DAF06}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A3EF61A1-1480-4D8C-863F-3DFB80B8DC02}
+	EndGlobalSection
+EndGlobal

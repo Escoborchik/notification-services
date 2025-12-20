@@ -1,6 +1,6 @@
 ﻿using MassTransit;
-using NotificationGateway.Application.Commands.CreateNotification;
 using NotificationGateway.Domain;
+using Notifications.Contracts.Email;
 
 namespace NotificationGateway.Application.Router;
 
