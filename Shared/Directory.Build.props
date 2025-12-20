@@ -1,0 +1,13 @@
+<Project>
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+
+		<PackageVersion>1.0.4</PackageVersion>
+
+		<RepositoryUrl>https://github.com/Escoborchik/notification-services</RepositoryUrl>
+	</PropertyGroup>
+
+</Project>

@@ -71,7 +71,7 @@ for %%P in (%PROJECTS%) do (
     echo Packing ../%%P
 
     dotnet pack ../%%P --configuration Release --output %SCRIPT_DIR% ^
-        -p:PackageVersion=%VERSION% -p:Version=%VERSION% -p:GeneratePackageOnBuild=false
+        -p:PackageVersion=%VERSION% -p:Version=%VERSION%
 
     if errorlevel 1 (
         echo ERROR during packing %%P
