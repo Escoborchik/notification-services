@@ -1,4 +1,5 @@
 ﻿using NotificationGateway.Domain;
+using NotificationGateway.Domain.Enums;
 
 namespace NotificationGateway.Application.Router;
 

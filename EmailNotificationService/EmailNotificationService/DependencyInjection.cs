@@ -2,17 +2,22 @@
 using EmailNotificationService.Consumers.Definitions;
 using EmailNotificationService.Database;
 using EmailNotificationService.Options;
+using EmailNotificationService.Renderer;
+using EmailNotificationService.Senders;
 using EmailNotificationService.Services;
 using Framework.Logging;
+using Framework.Services;
 using MassTransit;
-using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
+using TimeProvider = Framework.Services.Implementation.TimeProvider;
 
 namespace EmailNotificationService;
 
 public static class DependencyInjection
 {
-    public static void AddProgramDependencies(this IServiceCollection services, IConfiguration configuration)
+    public static void AddProgramDependencies(this IServiceCollection services, IConfiguration configuration,
+        IWebHostEnvironment environment)
     {
         services.AddControllers()
             .AddJsonOptions(options =>
@@ -24,7 +29,7 @@ public static class DependencyInjection
         {
             var configuration = sp.GetRequiredService<IConfiguration>();
 
-            options.UseNpgsql(configuration.GetConnectionString("Database"));
+            options.UseNpgsql(configuration.GetConnectionString(Constants.DATABASE));
 
             options.UseLoggerFactory(
                 LoggerFactory.Create(builder => builder.AddConsole()));
@@ -32,18 +37,11 @@ public static class DependencyInjection
 
 
         services
-            .AddFramework(configuration);
-
-        services.Configure<MailOptions>(configuration.GetSection(MailOptions.SECTION_NAME));
-        services.AddScoped<SmtpEmailSender>();
-        services.AddScoped<HandlebarsTemplateService>();
-        services.AddScoped<EmailSender>();
-        services.AddMemoryCache();
+            .AddFramework(configuration)
+            .AddEmailServices(configuration, environment);
     }
 
-    private static IServiceCollection AddFramework(
-        this IServiceCollection services,
-        IConfiguration configuration)
+    private static IServiceCollection AddFramework(this IServiceCollection services, IConfiguration configuration)
     
     {
         services
@@ -51,6 +49,8 @@ public static class DependencyInjection
             .AddEndpointsApiExplorer()
             .AddApplicationLoggingSeq(configuration)
             .AddMessageBus(configuration);
+
+        services.AddSingleton<ITimeProvider,TimeProvider>();
 
         return services;
     }
@@ -85,6 +85,31 @@ public static class DependencyInjection
                 cfg.UseEntityFrameworkOutbox<AppDbContext>(context);
             });
         });
+
+        return services;
+    }
+
+    private static IServiceCollection AddEmailServices(this IServiceCollection services,
+        IConfiguration configuration, IWebHostEnvironment environment)
+
+    {
+        services.AddScoped<EmailService>();
+        services.AddMemoryCache();
+
+        services.AddScoped<IMessageRenderer, MessageRenderer>();
+        services.AddScoped<ITemplateEngine, FileHandlebarsTemplateEngine>();
+
+        if (environment.IsDevelopment())
+        {
+            services.AddScoped<IMailSender, FakeMailSender>();
+        }
+        else
+        {
+            services.AddScoped<IMailSender, SmtpMailSender>();
+        }
+
+        services.Configure<SmtpOptions>(
+            configuration.GetSection(SmtpOptions.SMTP));
 
         return services;
     }

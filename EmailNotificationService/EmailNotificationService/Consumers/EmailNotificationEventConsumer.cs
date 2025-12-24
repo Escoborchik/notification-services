@@ -1,36 +1,37 @@
 ﻿using EmailNotificationService.Services;
+using Framework.Services;
 using MassTransit;
-using Notifications.Contracts.Email;
-using Notifications.Contracts.Status;
+using Notifications.Contracts.Events;
 
 namespace EmailNotificationService.Consumers;
 
-public class EmailNotificationEventConsumer(EmailSender sendEmailService, IPublishEndpoint _publish) : IConsumer<EmailNotificationEvent>
+public class EmailNotificationEventConsumer(
+    EmailService sendEmailService,
+    IPublishEndpoint _publish,
+    ITimeProvider timeProvider) : IConsumer<EmailNotificationEvent>
 {
     public async Task Consume(ConsumeContext<EmailNotificationEvent> context)
     {
         var message = context.Message;
+        var ct = context.CancellationToken;
 
         try
         {
-            await sendEmailService.Execute(message);
+            await sendEmailService.Execute(message, ct);
 
-            await _publish.Publish(new NotificationSentEvent(
+            await _publish.Publish(new NotificationSucceedSentEvent(
                message.NotificationId,
-               Channel: "Email",
-               SentAt: DateTime.UtcNow
+               SentAt: timeProvider.UtcNow()
            ));
         }
         catch (Exception ex)
         {
             
 
-            await _publish.Publish(new NotificationFailedEvent(
+            await _publish.Publish(new NotificationFailedSentEvent(
                 message.NotificationId,
-                Channel: "Email",
-                ErrorCode: "SMTP_ERROR",
                 ErrorMessage: ex.Message,
-                FailedAt: DateTime.UtcNow
+                FailedAt: timeProvider.UtcNow()
             ));
 
             throw;

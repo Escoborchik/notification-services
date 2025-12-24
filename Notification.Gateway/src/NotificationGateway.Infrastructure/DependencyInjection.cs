@@ -1,12 +1,13 @@
 ﻿using Framework.Database;
 using Framework.Database.Repository;
 using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using NotificationGateway.Application.Features.Consumers;
 using NotificationGateway.Application.Interfaces;
 using NotificationGateway.Infrastructure.Migrator;
-using Microsoft.EntityFrameworkCore;
 
 namespace NotificationGateway.Infrastructure;
 
@@ -41,6 +42,9 @@ public static class DependencyInjection
     {
         services.AddMassTransit(configure =>
         {
+            configure.AddConsumer<NotificationSucceedSentEventConsumer>();
+            configure.AddConsumer<NotificationSucceedFailedEventConsumer>();
+
             configure.SetKebabCaseEndpointNameFormatter();
 
             configure.UsingRabbitMq((context, cfg) =>

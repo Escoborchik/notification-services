@@ -208,31 +208,54 @@ namespace NotificationGateway.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedOnUtc")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("DeliveryStatus")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("delivery_status");
+
+                    b.Property<string>("ErrorMessage")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("error_message");
+
+                    b.Property<DateTime?>("FailedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("failed_at");
+
                     b.Property<Guid?>("LastUpdatedBy")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime?>("LastUpdatedOnUtc")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<DateTime?>("SentAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("sent_at");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("status");
 
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("type");
+
                     b.ComplexProperty<Dictionary<string, object>>("Content", "NotificationGateway.Domain.Notification.Content#Content", b1 =>
                         {
                             b1.IsRequired();
+
+                            b1.Property<string>("Body")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("body");
 
                             b1.Property<string>("Subject")
                                 .IsRequired()
                                 .HasMaxLength(100)
                                 .HasColumnType("character varying(100)")
                                 .HasColumnName("subject");
-
-                            b1.Property<string>("Text")
-                                .IsRequired()
-                                .HasColumnType("text")
-                                .HasColumnName("text");
                         });
 
                     b.ComplexProperty<Dictionary<string, object>>("Recipient", "NotificationGateway.Domain.Notification.Recipient#Recipient", b1 =>

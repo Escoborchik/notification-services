@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using NotificationGateway.Domain.Enums;
 using SharedKernel.EntityBase;
 using SharedKernel.ErrorsBase;
 
@@ -9,10 +10,18 @@ public class Notification : AuditableEntity<Guid>
     public NotificationChannel Channel { get; private set; }
     public Recipient Recipient { get; private set; } = null!;
     public Content Content { get; private set; } = null!;
-    public NotificationStatus Status { get; private set; }
+    public NotificationQueueStatus Status { get; private set; }
+    public NotificationDeliveryStatus DeliveryStatus { get; private set; }
+    public NotificationType Type { get; private set; }
+
+    public DateTime? SentAt { get; private set; }
+    public DateTime? FailedAt { get; private set; }
+    public string? ErrorMessage { get; private set; }
+
 
     public static Result<Notification, Error> Create(
         NotificationChannel channel,
+        NotificationType type,
         Recipient recipient,
         Content content)
     {
@@ -25,7 +34,8 @@ public class Notification : AuditableEntity<Guid>
             Channel = channel,
             Recipient = recipient,
             Content = content,
-            Status = NotificationStatus.Pending
+            Type = type,
+            Status = NotificationQueueStatus.Pending
         };
 
         return notification;
@@ -33,18 +43,33 @@ public class Notification : AuditableEntity<Guid>
 
     public UnitResult<Error> MarkQueued()
     {
-        if (Status != NotificationStatus.Pending)
+        if (Status != NotificationQueueStatus.Pending)
             return Error.Failure("notification.invalid-status-transition",
-                "Invalid status transition from " + Status + " to " + NotificationStatus.Queued);
+                "Invalid status transition from " + Status + " to " + NotificationQueueStatus.Queued);
 
-        Status = NotificationStatus.Queued;
+        Status = NotificationQueueStatus.Queued;
+        DeliveryStatus = NotificationDeliveryStatus.None;
+
         return UnitResult.Success<Error>();
     }
 
     public void MarkFailed()
     {
 
-        Status = NotificationStatus.Failed;
+        Status = NotificationQueueStatus.Failed;
+    }
+
+    public void MarkSent(DateTime sentAt)
+    {
+        DeliveryStatus = NotificationDeliveryStatus.Sent;
+        SentAt = sentAt;
+    }
+
+    public void MarkDeliveryFailed(string errorMessage, DateTime failedAt)
+    {
+        DeliveryStatus = NotificationDeliveryStatus.Failed;
+        ErrorMessage = errorMessage;
+        FailedAt = failedAt;
     }
 
     private static UnitResult<Error> Validate(
@@ -58,9 +83,6 @@ public class Notification : AuditableEntity<Guid>
         if (content is null)
             return Error.Failure("notification.invalid-content", "Content is required.");
 
-        if (string.IsNullOrWhiteSpace(content.Text))
-            return Error.Failure("notification.invalid-content", "Content.Text is required.");
-
         switch (channel)
         {
             case NotificationChannel.Email:
@@ -68,11 +90,6 @@ public class Notification : AuditableEntity<Guid>
                     return Error.Failure(
                         "notification.invalid-recipient",
                         "Email recipient is required for Email channel.");
-
-                if (string.IsNullOrWhiteSpace(content.Subject))
-                    return Error.Failure(
-                        "notification.invalid-content",
-                        "Content.Subject is required for Email channel.");
                 break;
 
             case NotificationChannel.Sms:

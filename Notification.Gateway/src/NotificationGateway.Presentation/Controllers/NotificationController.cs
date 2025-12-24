@@ -1,6 +1,8 @@
 ﻿using Framework;
 using Microsoft.AspNetCore.Mvc;
-using NotificationGateway.Application.Commands.CreateNotification;
+using NotificationGateway.Application.Features.Commands.CreateNotification;
+using NotificationGateway.Application.Features.Queries;
+using NotificationGateway.Contracts.DTO;
 using NotificationGateway.Contracts.Requests;
 
 namespace NotificationGateway.Presentation.Controllers
@@ -8,27 +10,27 @@ namespace NotificationGateway.Presentation.Controllers
     public class NotificationController : ApplicationController
     {
         /// <summary>
-        /// Получение статуса уведомления
+        /// Получение информацию об уведомлении
         /// </summary>
 
-        //[HttpGet()]
-        //public async Task<ActionResult<string>> Get(
-        //[FromQuery] Guid notificationId,
-        //[FromServices] GetOrganizationQueryHandler handler,
-        //CancellationToken cancellationToken)
-        //{
-        //    var query = new GetOrganizationQuery(
-        //        organizationId);
+        [HttpGet()]
+        public async Task<ActionResult<NotificationDTO>> Get(
+        [FromQuery] Guid notificationId,
+        [FromServices] GetNotificationQueryHandler handler,
+        CancellationToken cancellationToken)
+        {
+            var query = new GetNotificationQuery(
+                notificationId);
 
-        //    var result = await handler.Execute(query, cancellationToken);
+            var result = await handler.Execute(query, cancellationToken);
 
-        //    if (result.IsFailure)
-        //    {
-        //        return result.Error.ToResponse();
-        //    }
+            if (result.IsFailure)
+            {
+                return result.Error.ToResponse();
+            }
 
-        //    return Ok(result.Value);
-        //}
+            return Ok(result.Value);
+        }
 
         /// <summary>
         /// Отправить уведомление

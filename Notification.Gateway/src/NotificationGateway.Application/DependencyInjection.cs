@@ -17,7 +17,7 @@ public static class DependencyInjection
 
         services.AddSingleton<ITimeProvider, TimeProvider>();
 
-        services.AddScoped<INotificationRouter, NotificationRouter>();
+        services.AddScoped<INotificationDispatcher, NotificationDispather>();
         services.AddScoped<INotificationRoute, EmailNotificationRoute>();
 
         return services;

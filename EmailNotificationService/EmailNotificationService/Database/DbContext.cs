@@ -7,7 +7,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 {
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.HasDefaultSchema("email_notification_service");
+        modelBuilder.HasDefaultSchema(Constants.SCHEMA_NAME);
 
         modelBuilder.ApplyConfigurationsFromAssembly(
             AssemblyReference.Assembly,

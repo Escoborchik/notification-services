@@ -6,24 +6,23 @@ namespace NotificationGateway.Domain;
 public record Content
 {
     public string Subject { get; }
-    public string Text { get; }
+    public string Body { get; }
 
     
-
-    public static Result<Content, Error> Create(string? subject, string? text)
+    public static Result<Content, Error> Create(string subject, string body)
     {
-        if (string.IsNullOrWhiteSpace(text))
-            return Error.Failure("notification.invalid-content", "text is required.");
+        if (string.IsNullOrWhiteSpace(subject))
+            return Error.Failure("notification.invalid-content", "subject is required.");
 
-        return new Content(
-            subject?.Trim() ?? string.Empty,
-            text.Trim()
-        );
+        if (string.IsNullOrWhiteSpace(body))
+            return Error.Failure("notification.invalid-content", "body is required.");
+
+        return new Content(subject, body);
     }
 
-    private Content(string subject, string text)
+    private Content(string subject, string body)
     {
         Subject = subject;
-        Text = text;
+        Body = body;
     }
 }

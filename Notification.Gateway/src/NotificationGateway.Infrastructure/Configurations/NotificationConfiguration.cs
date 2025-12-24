@@ -40,16 +40,36 @@ public class NotificationConfiguration : IEntityTypeConfiguration<Notification>
             .HasMaxLength(Constants.MIN_TEXT_LENGTH)
             .HasColumnName("subject");
 
-            db.Property(c => c.Text)
-            .HasColumnName("text");
+            db.Property(c => c.Body)
+            .HasColumnName("body");
         });
 
         builder.Property(c => c.Status)
             .HasConversion<string>()
             .HasColumnName("status");
 
+        builder.Property(c => c.Type)
+            .HasConversion<string>()
+            .HasColumnName("type");
+
         builder.Property(c => c.Channel)
             .HasConversion<string>()
             .HasColumnName("channel");
+
+        builder.Property(c => c.DeliveryStatus)
+            .HasConversion<string>()
+            .HasColumnName("delivery_status");
+
+        builder.Property(c => c.SentAt)
+            .IsRequired(false)
+            .HasColumnName("sent_at");
+
+        builder.Property(c => c.FailedAt)
+            .IsRequired(false)
+            .HasColumnName("failed_at");
+
+        builder.Property(c => c.ErrorMessage)
+            .HasMaxLength(Constants.MIN_TEXT_LENGTH)
+            .HasColumnName("error_message");
     }
 }
