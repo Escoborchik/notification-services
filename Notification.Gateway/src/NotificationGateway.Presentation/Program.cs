@@ -9,3 +9,8 @@ var app = builder.Build();
 await app.Configure();
 
 app.Run();
+
+namespace NotificationGateway.Presentation 
+{
+    public partial class Program;
+}

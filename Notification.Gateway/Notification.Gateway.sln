@@ -22,7 +22,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Directory", "Directory", "{754FC069-D67B-A9D7-50A1-8D1CA196D8F1}"
 	ProjectSection(SolutionItems) = preProject
 		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E65122D0-A5FC-48AA-87F2-A48F0EA5238B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notification.Gateway.IntegrationTest", "src\Tests\Notification.Gateway.IntegrationTest\Notification.Gateway.IntegrationTest.csproj", "{D844DAA1-4814-4B1A-9683-7D0DA3CCB9B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,9 +55,16 @@ Global
 		{3D89BEDD-3DD4-4EE3-8A56-AE08E29845D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D89BEDD-3DD4-4EE3-8A56-AE08E29845D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D89BEDD-3DD4-4EE3-8A56-AE08E29845D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D844DAA1-4814-4B1A-9683-7D0DA3CCB9B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D844DAA1-4814-4B1A-9683-7D0DA3CCB9B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D844DAA1-4814-4B1A-9683-7D0DA3CCB9B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D844DAA1-4814-4B1A-9683-7D0DA3CCB9B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D844DAA1-4814-4B1A-9683-7D0DA3CCB9B2} = {E65122D0-A5FC-48AA-87F2-A48F0EA5238B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {185CFA7A-5BF0-47C3-B2B4-28329EB3CCD2}
