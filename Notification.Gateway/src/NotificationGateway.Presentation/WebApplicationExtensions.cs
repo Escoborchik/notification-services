@@ -1,6 +1,5 @@
 ﻿using Framework.Database;
-using Framework.Middlewares;
-using Serilog;
+using Framework.Logging;
 
 namespace NotificationGateway.Presentation;
 
@@ -17,12 +16,13 @@ public static class WebApplicationExtensions
             await app.Services.RunMigrations();
         }
 
-        app.UseExceptionMiddleware();
-        app.UseSerilogRequestLogging();
+        app.UseApplicationRequestLogging();
         app.UseHttpsRedirection();
         app.UseAuthentication();
         app.UseAuthorization();
         app.MapControllers();
+
+        app.MapPrometheusScrapingEndpoint("/metrics");
 
         if (app.Environment.IsEnvironment("Docker"))
         {

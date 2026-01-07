@@ -1,4 +1,4 @@
-﻿using Framework.Logging;
+﻿using Framework.Metrics;
 using Framework.Swagger;
 using NotificationGateway.Application;
 using NotificationGateway.Infrastructure;
@@ -31,7 +31,7 @@ public static class DependencyInjection
         services
             .AddOpenApi()
             .AddEndpointsApiExplorer()
-            .AddApplicationLoggingSeq(configuration)
+            .AddApplicationMetrics(configuration)
             .AddCustomSwagger(configuration);
 
         return services;

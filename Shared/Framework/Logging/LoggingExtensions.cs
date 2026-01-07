@@ -1,5 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
 
@@ -7,22 +8,58 @@ namespace Framework.Logging;
 
 public static class LoggingExtensions
 {
-
-    public static IServiceCollection AddApplicationLoggingSeq(
-        this IServiceCollection services, IConfiguration configuration)
+    public static IHostBuilder UseApplicationLogging(this IHostBuilder host, IConfiguration configuration)
     {
-        Log.Logger = new LoggerConfiguration()
-            .WriteTo.Console()
-            .WriteTo.Debug()
-            .WriteTo.Seq(configuration.GetConnectionString("Seq")
-                         ?? throw new ArgumentNullException("Seq"))
-            .MinimumLevel.Override("Microsoft.AspNetCore.Hosting", LogEventLevel.Warning)
-            .MinimumLevel.Override("Microsoft.AspNetCore.Mvc", LogEventLevel.Warning)
-            .MinimumLevel.Override("Microsoft.AspNetCore.Routing", LogEventLevel.Warning)
-            .CreateLogger();
+        return host.UseSerilog((context, services, logger) =>
+        {
+            var env = context.HostingEnvironment;
 
-        services.AddSerilog();
+            logger
+                .MinimumLevel.Information()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+                .MinimumLevel.Override("System", LogEventLevel.Warning)
+                .MinimumLevel.Override("Microsoft.Hosting.Lifetime", LogEventLevel.Information)
 
-        return services;
+                .Enrich.FromLogContext()
+                .Enrich.WithMachineName()
+                .Enrich.WithProperty("Service", env.ApplicationName)
+                .Enrich.WithProperty("Environment", env.EnvironmentName)
+
+                .WriteTo.Console(
+                    outputTemplate:
+                    "[{Timestamp:HH:mm:ss} {Level:u3} {Service}] {Message:lj}{NewLine}{Exception}"
+                )
+                .WriteTo.Seq(
+                     configuration.GetConnectionString("Seq")
+                    ?? throw new InvalidOperationException("Seq connection string missing")
+                );
+        });
+    }
+
+    public static IApplicationBuilder UseApplicationRequestLogging(
+        this IApplicationBuilder app)
+    {
+        return app.UseSerilogRequestLogging(options =>
+        {
+            options.MessageTemplate =
+                "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms";
+
+            options.EnrichDiagnosticContext = (ctx, http) =>
+            {
+                ctx.Set(
+                    "ClientIP",
+                    http.Connection.RemoteIpAddress?.ToString() ?? "unknown");
+
+                ctx.Set(
+                    "UserAgent",
+                    http.Request.Headers.UserAgent.ToString() ?? "unknown");
+
+                ctx.Set(
+                    "RequestHost",
+                    string.IsNullOrWhiteSpace(http.Request.Host.Value)
+                        ? "unknown"
+                        : http.Request.Host.Value);
+            };
+        });
     }
 }

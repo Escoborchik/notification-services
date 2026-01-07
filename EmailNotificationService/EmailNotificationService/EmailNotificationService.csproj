@@ -1,33 +1,37 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <UserSecretsId>61933fca-ec37-44b4-9f22-a16d22cacae2</UserSecretsId>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-  </PropertyGroup>
+	<PropertyGroup>
+		<UserSecretsId>61933fca-ec37-44b4-9f22-a16d22cacae2</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Content Remove="appsettings.Docker.json" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="Templates\**\*.hbs">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</None>
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Include="appsettings.Docker.json" />
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="Templates\Welcome\body.hbs" />
+		<EmbeddedResource Include="Templates\Welcome\subject.hbs" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Framework" />
-    <PackageReference Include="Handlebars.Net" />
-    <PackageReference Include="MailKit" />
-    <PackageReference Include="MassTransit" />
-    <PackageReference Include="MassTransit.EntityFrameworkCore" />
-    <PackageReference Include="MassTransit.RabbitMQ" />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
-    <PackageReference Include="Notifications.Contracts" />
-    <PackageReference Include="SharedKernel" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Framework" />
+		<PackageReference Include="Handlebars.Net" />
+		<PackageReference Include="MailKit" />
+		<PackageReference Include="MassTransit" />
+		<PackageReference Include="MassTransit.EntityFrameworkCore" />
+		<PackageReference Include="MassTransit.RabbitMQ" />
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
+		<PackageReference Include="Notifications.Contracts" />
+		<PackageReference Include="SharedKernel" />
+	</ItemGroup>
 
 </Project>

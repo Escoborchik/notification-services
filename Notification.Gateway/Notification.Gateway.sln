@@ -29,6 +29,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E65122D0
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notification.Gateway.IntegrationTest", "src\Tests\Notification.Gateway.IntegrationTest\Notification.Gateway.IntegrationTest.csproj", "{D844DAA1-4814-4B1A-9683-7D0DA3CCB9B2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "etc", "etc", "{5D342DDB-855E-4CA3-A609-0A485149779B}"
+	ProjectSection(SolutionItems) = preProject
+		..\docker-compose.yml = ..\docker-compose.yml
+		..\otel-collector-config.yaml = ..\otel-collector-config.yaml
+		..\prometheus.yml = ..\prometheus.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

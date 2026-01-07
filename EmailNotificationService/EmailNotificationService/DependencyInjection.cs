@@ -1,11 +1,13 @@
 ﻿using EmailNotificationService.Consumers;
 using EmailNotificationService.Consumers.Definitions;
 using EmailNotificationService.Database;
+using EmailNotificationService.Migrator;
 using EmailNotificationService.Options;
 using EmailNotificationService.Renderer;
 using EmailNotificationService.Senders;
 using EmailNotificationService.Services;
-using Framework.Logging;
+using Framework.Database;
+using Framework.Metrics;
 using Framework.Services;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +37,8 @@ public static class DependencyInjection
                 LoggerFactory.Create(builder => builder.AddConsole()));
         });
 
+        services.AddScoped<IMigrator, EmailServiceMigrator>();
+
 
         services
             .AddFramework(configuration)
@@ -47,7 +51,7 @@ public static class DependencyInjection
         services
             .AddOpenApi()
             .AddEndpointsApiExplorer()
-            .AddApplicationLoggingSeq(configuration)
+            .AddApplicationMetrics(configuration)
             .AddMessageBus(configuration);
 
         services.AddSingleton<ITimeProvider,TimeProvider>();
@@ -99,7 +103,7 @@ public static class DependencyInjection
         services.AddScoped<IMessageRenderer, MessageRenderer>();
         services.AddScoped<ITemplateEngine, FileHandlebarsTemplateEngine>();
 
-        if (environment.IsDevelopment())
+        if (environment.IsDevelopment() || environment.IsEnvironment("Docker"))
         {
             services.AddScoped<IMailSender, FakeMailSender>();
         }

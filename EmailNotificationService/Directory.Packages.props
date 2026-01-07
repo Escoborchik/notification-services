@@ -19,8 +19,8 @@
     <PackageVersion Include="MassTransit" Version="8.5.7" />
     <PackageVersion Include="MassTransit.EntityFrameworkCore" Version="8.5.7" />
     <PackageVersion Include="MassTransit.RabbitMQ" Version="8.5.7" />
-    <PackageVersion Include="SharedKernel" Version="1.0.4" />
-    <PackageVersion Include="Framework" Version="1.0.4" />
+    <PackageVersion Include="SharedKernel" Version="1.0.5" />
+    <PackageVersion Include="Framework" Version="1.0.5" />
     <PackageVersion Include="Handlebars.Net" Version="2.1.6" />
     <PackageVersion Include="MailKit" Version="4.14.1" />
   </ItemGroup>

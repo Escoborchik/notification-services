@@ -1,17 +1,22 @@
-﻿using Framework.Middlewares;
-using Serilog;
+﻿using Framework.Database;
+using Framework.Logging;
+using Framework.Middlewares;
 
 namespace EmailNotificationService;
 
 public static class WebApplicationExtensions
 {
-    public static void Configure(this WebApplication app)
+    public async static Task Configure(this WebApplication app)
     {
+        await app.Services.RunMigrations();
+
         app.UseExceptionMiddleware();
-        app.UseSerilogRequestLogging();
+        app.UseApplicationRequestLogging();
         app.UseHttpsRedirection();
         app.UseAuthentication();
         app.UseAuthorization();
         app.MapControllers();
+
+        app.MapPrometheusScrapingEndpoint("/metrics");
     }
 }

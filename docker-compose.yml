@@ -3,27 +3,71 @@ name: notifications
 volumes:
   postgres_data:
   rabbitmq_data:
+  prometheus_data:
+
 services:
+  gateway-service:
+    build:
+      args:
+        GITHUB_TOKEN: ${GITHUB_TOKEN}
+      context: ./Notification.Gateway
+      dockerfile: "src/NotificationGateway.Presentation/Dockerfile"
+    restart: always
+    ports:
+      - 8080:8080
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - OTEL_EXPORTER_OTLP_PROTOCOL=grpc
+      - OTEL_SERVICE_NAME=gateway-service
+    depends_on:
+      - postgres
+      - seq
+      - otel-collector
+      - rabbitmq
+
+  email-service:
+    build:
+      args:
+        GITHUB_TOKEN: ${GITHUB_TOKEN}
+      context: ./EmailNotificationService
+      dockerfile: "EmailNotificationService/Dockerfile"
+    restart: always
+    ports:
+      - 8082:8080
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - OTEL_EXPORTER_OTLP_PROTOCOL=grpc
+      - OTEL_SERVICE_NAME=email-service
+    depends_on:
+      - postgres
+      - seq
+      - otel-collector
+      - rabbitmq
+
   postgres:
     image: postgres
     restart: always
     environment:
-        POSTGRES_DB: notifications
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: notifications
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     ports:
-    - "5434:5432"
+      - "5434:5432"
     volumes:
-    - postgres_data:/var/lib/postgresql
+      - postgres_data:/var/lib/postgresql
+
   seq:
     image: datalust/seq
     restart: always
     environment:
-    - ACCEPT_EULA=Y
-    - SEQ_FIRSTRUN_NOAUTHENTICATION=true
+      - ACCEPT_EULA=Y
+      - SEQ_FIRSTRUN_NOAUTHENTICATION=true
     ports:
-    - 5341:5341
-    - 8081:80
+      - 5341:5341
+      - 8081:80
+
   rabbitmq:
     image: rabbitmq:management-alpine
     hostname: localhost
@@ -32,3 +76,34 @@ services:
       - 15672:15672
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.53
+    restart: always
+    ports:
+      - "16686:16686"    
+      - "14250:14250"    
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    restart: always
+    command: ["--config=/etc/otel/config.yaml"]
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otel/config.yaml:ro
+    ports:
+      - "4317:4317"   
+      - "4318:4318"  
+    depends_on:
+      - jaeger
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: always
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
